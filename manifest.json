@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+  "name": "My Simple Ad Blocker",
+  "description": "A basic extension to block ads and trackers.",
+  "version": "0.0.1",
+  "icons": {
+    "64": "icons/icon.png"
+  },
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "<all_urls>",
+    "storage"
+  ],
+  "background": {
+    "scripts": ["background_script.js"]
+  },
+  "web_accessible_resources": ["blocklist.txt"],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "@my-adblocker",
+      "strict_min_version": "48.0"
+    }
+  }
+}
