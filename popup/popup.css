@@ -1,0 +1,29 @@
+body {
+  width: 200px;
+  font-family: sans-serif;
+  padding: 10px;
+}
+
+.container {
+  text-align: center;
+}
+
+.stat-box {
+  font-size: 1.2em;
+  margin: 10px 0;
+  color: #2a7da3;
+}
+
+#total-blocked {
+  font-weight: bold;
+  font-size: 2em;
+}
+
+button {
+  cursor: pointer;
+  background: #ff4757;
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 4px;
+}
