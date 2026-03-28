@@ -25,6 +25,8 @@ async function handleInstall() {
       totalBlocked: 0,
       blockedCounts: {}
     });
+
+    updateBadge();
     console.log("Installed: saved blocklist + initialized counters.");
   }
 }
@@ -49,6 +51,8 @@ async function loadFromStorage() {
   blockedUrls = data.blockedURLs || [];
   totalBlocked = data.totalBlocked ?? 0;
   blockedCounts = data.blockedCounts || {};
+
+  updateBadge();
 
   console.log("Startup loaded from storage:", {
     blockedUrls,
@@ -77,6 +81,8 @@ async function recordBlock(matchedPattern, tabId) {
     blockedCounts
   });
 
+  updateBadge();
+
   // Update popup if open
   browser.runtime.sendMessage({
     action: "update_count",
@@ -94,6 +100,16 @@ async function recordBlock(matchedPattern, tabId) {
       // some pages may not have a content script available
     });
   }
+}
+
+function updateBadge() {
+  browser.browserAction.setBadgeText({
+    text: totalBlocked > 0 ? String(totalBlocked) : ""
+  });
+
+  browser.browserAction.setBadgeBackgroundColor({
+    color: "#ff4757"
+  });
 }
 
 function logURL(requestDetails) {
@@ -120,3 +136,11 @@ browser.webRequest.onBeforeRequest.addListener(
 );
 
 browser.runtime.onInstalled.addListener(handleInstall);
+
+browser.runtime.onMessage.addListener((message) => {
+  if (message.action === "reset_stats") {
+    totalBlocked = 0;
+    blockedCounts = {};
+    updateBadge();
+  }
+});
